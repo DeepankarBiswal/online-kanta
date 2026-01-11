@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from "../supabaseClient";
-import { Calendar, Clock, MapPin, Phone, User, FileText, Trash2, Newspaper, Zap, Package, Droplet, Wrench, CheckCircle2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, Phone, User, FileText, Newspaper, Zap, Package, Droplet, Wrench, CheckCircle2 } from 'lucide-react';
 import logo from "../assets/online-kanta-logo.png";
 
 

@@ -1,14 +1,14 @@
-import { Check } from "lucide-react";
+// import { Check } from "lucide-react";
 import {
   Hammer,
   Cpu,
   Recycle,
-  Wrench,
-  Smartphone,
-  Refrigerator,
-  Battery,
-  Package,
-  Wine,
+  // Wrench,
+  // Smartphone,
+  // Refrigerator,
+  // Battery,
+  // Package,
+  // Wine,
 } from "lucide-react";
 
 export function Pricing() {
