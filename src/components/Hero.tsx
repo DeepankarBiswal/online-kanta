@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import heroImage from "/src/assets/hero.jpg";
 
 export function Hero() {
   return (
@@ -43,7 +44,7 @@ export function Hero() {
           <div className="relative z-10">
             <div className="relative rounded-[20px] overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1608476524605-2ad765c3bd78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWN5Y2xpbmclMjB0cnVjayUyMGNpdHl8ZW58MXx8fHwxNzY0NzQ4NjEyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src={heroImage}
                 alt="Recycling and scrap pickup service"
                 className="w-full h-auto"
               />

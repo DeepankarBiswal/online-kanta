@@ -28,7 +28,7 @@ export function Features() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-extrabold text-[#111827] mb-4">
-            Why Choose ScrapFlow?
+            Why Choose Online Kanta?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Experience the future of scrap recycling with cutting-edge technology and unmatched transparency

@@ -1,4 +1,6 @@
 import { Facebook, Instagram, Linkedin,  } from "lucide-react";
+import logo from "../assets/online-kanta-logo.png";
+
 
 export function Footer() {
   return (
@@ -8,11 +10,13 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#4ADE80] to-[#22D3EE] flex items-center justify-center">
-                <span className="text-white font-extrabold text-xl">S</span>
-              </div>
+              <img
+                src={logo}
+                alt="Online Kanta"
+                className="h-10 w-auto object-contain"
+              />
               <span className="text-2xl font-extrabold text-white">
-                ScrapFlow
+                Online Kanta
               </span>
             </div>
             <p className="text-gray-400 max-w-md leading-relaxed">

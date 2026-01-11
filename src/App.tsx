@@ -9,6 +9,8 @@ import { Footer } from "./components/Footer";
 // import { BookPickup }  from "./components/BookPickup";
 import BookPickupPage from "./pages/BookPickupPage";
 import PickupSuccessPage from "./pages/PickupSuccessPage";
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 
@@ -35,6 +37,8 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/book-pickup" element={<BookPickupPage />} />
       <Route path="/pickup-success" element={<PickupSuccessPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
     </Routes>
   );
 }

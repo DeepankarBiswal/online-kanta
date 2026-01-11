@@ -1,159 +1,199 @@
-import { Check, Zap, Building2, Users } from 'lucide-react';
+import { Check } from "lucide-react";
+import {
+  Hammer,
+  Cpu,
+  Recycle,
+  Wrench,
+  Smartphone,
+  Refrigerator,
+  Battery,
+  Package,
+  Wine,
+} from "lucide-react";
 
 export function Pricing() {
-  const plans = [
+  const scrapCategories = [
     {
-      name: 'Basic',
-      icon: Zap,
-      price: '₹0',
-      period: 'pickup charge',
-      description: 'Best for homes',
-      gradient: 'from-[#4ADE80] to-[#10B981]',
-      features: [
-        'Instant pickup scheduling',
-        'Verified agents',
-        'Digital weighing',
-        'Transparent pricing',
-        'UPI/Bank transfer',
-        'Eco-friendly recycling'
+      title: "Metals (Ferrous & Non-Ferrous)",
+      icon: <Hammer className="h-10 w-10 text-green-600 mb-4" />,
+      description: "Best rates for industrial and household metals.",
+      items: [
+        {
+          name: "Steel / Iron",
+          desc: "Bed frames, pipes, fences, tools",
+          price: "₹26/kg",
+        },
+        {
+          name: "Aluminum",
+          desc: "Cans, foil, window frames",
+          price: "₹105/kg",
+        },
+        {
+          name: "Copper",
+          desc: "Wires, motors (Very Valuable)",
+          price: "₹420/kg",
+        },
+        {
+          name: "Brass",
+          desc: "Faucets, locks, instruments",
+          price: "₹305/kg",
+        },
+        { name: "Lead", desc: "Car batteries, roofing", price: "₹85/kg" },
+        { name: "Stainless Steel", desc: "Sinks, cookware", price: "₹45/kg" },
       ],
-      popular: false
     },
     {
-      name: 'Business Plus',
-      icon: Building2,
-      price: '₹499',
-      period: 'per month',
-      description: 'For regular business needs',
-      gradient: 'from-[#60A5FA] to-[#6366F1]',
-      features: [
-        'All Basic features',
-        'Priority scheduling',
-        'Dedicated account manager',
-        'Weekly bulk pickups',
-        'Premium rates (5% higher)',
-        'Monthly analytics report',
-        'Invoice & GST support'
+      title: "Electronics & E-Waste",
+      icon: <Cpu className="h-10 w-10 text-blue-600 mb-4" />,
+      description: "Secure recycling for gadgets and appliances.",
+      items: [
+        {
+          name: "Computers / Laptops",
+          desc: "Circuit boards, hard drives",
+          price: "₹300/pc",
+        },
+        {
+          name: "Old Phones",
+          desc: "Chargers, cables, batteries",
+          price: "₹20/pc",
+        },
+        {
+          name: "Large Appliances",
+          desc: "Fridges, Washing Machines",
+          price: "₹800+/pc",
+        },
+        { name: "Microwaves", desc: "Motors, copper wiring", price: "₹200/pc" },
+        {
+          name: "Motors & Fans",
+          desc: "Ceiling fans, vacuums",
+          price: "₹35/kg",
+        },
+        {
+          name: "AC Units",
+          desc: "Window/Split (Copper coil)",
+          price: "₹3500/pc",
+        },
       ],
-      popular: true
     },
     {
-      name: 'Enterprise',
-      icon: Users,
-      price: 'Custom',
-      period: 'pricing',
-      description: 'Large housing societies & bulk scrap',
-      gradient: 'from-[#22D3EE] to-[#10B981]',
-      features: [
-        'All Business Plus features',
-        'Custom pickup schedules',
-        'Multiple location support',
-        'Real-time tracking dashboard',
-        'Premium rates (10% higher)',
-        'Quarterly business review',
-        'White-label solution'
+      title: "Other Household Items",
+      icon: <Recycle className="h-10 w-10 text-amber-600 mb-4" />,
+      description: "Everyday recyclables and reusable materials.",
+      items: [
+        {
+          name: "Paper & Cardboard",
+          desc: "Newspapers, Amazon boxes",
+          price: "₹14/kg",
+        },
+        {
+          name: "Glass Bottles",
+          desc: "Beer/Wine bottles (Reuse)",
+          price: "₹2/pc",
+        },
+        {
+          name: "Car Batteries",
+          desc: "Old inverter/car batteries",
+          price: "₹75/kg",
+        },
+        {
+          name: "Plastic Waste",
+          desc: "Bottles, containers, chairs",
+          price: "₹12/kg",
+        },
+        { name: "Old Tyres", desc: "Bike/Car tyres", price: "₹5/kg" },
+        {
+          name: "Books / Magazines",
+          desc: "School books, notebooks",
+          price: "₹12/kg",
+        },
       ],
-      popular: false
-    }
+    },
   ];
 
   return (
-    <section id="pricing" className="w-full py-20 lg:py-28 bg-white">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-[#111827] mb-4">
-            Simple, Transparent Pricing
+    <section id="pricing" className="py-24 bg-slate-950">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-50 mb-4">
+            Transparent Scrap Rates
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose the plan that fits your needs. No hidden fees, no surprises.
+          <p className="text-lg text-slate-400">
+            We offer the best market prices for your scrap. Prices may vary
+            slightly based on daily market fluctuation and condition.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {plans.map((plan, index) => {
-            const Icon = plan.icon;
-            return (
-              <div
-                key={index}
-                className={`relative rounded-[20px] p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border-2 hover:-translate-y-2 ${
-                  plan.popular
-                    ? 'bg-linear-to-br from-[#111827] to-[#1f2937] border-[#4ADE80] scale-105'
-                    : 'bg-white border-gray-200'
-                }`}
-              >
-                {/* Popular Badge */}
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <div className="px-6 py-2 bg-linear-to-r from-[#4ADE80] to-[#10B981] rounded-full shadow-lg">
-                      <span className="text-sm font-bold text-[#111827]">MOST POPULAR</span>
+        {/* 3-Column Grid */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {scrapCategories.map((category, index) => (
+            <div
+              key={index}
+              className="bg-slate-900 rounded-2xl p-8 border border-slate-800 hover:border-green-600/50 transition-all duration-300 flex flex-col"
+            >
+              {/* Card Header */}
+              <div className="text-center flex flex-col items-center border-b border-slate-800 pb-6 mb-6">
+                <div className="bg-slate-800/50 p-4 rounded-full mb-4">
+                  {category.icon}
+                </div>
+                <h3 className="text-xl font-bold text-slate-50 mb-2">
+                  {category.title}
+                </h3>
+                <p className="text-slate-400 text-sm">{category.description}</p>
+              </div>
+
+              {/* List of Items */}
+              <div className="space-y-4 flex-1">
+                {category.items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between items-start group"
+                  >
+                    <div>
+                      <div className="font-semibold text-slate-200 group-hover:text-green-400 transition-colors">
+                        {item.name}
+                      </div>
+                      <div className="text-xs text-slate-500">{item.desc}</div>
+                    </div>
+                    <div className="font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded text-sm whitespace-nowrap">
+                      {item.price}
                     </div>
                   </div>
-                )}
+                ))}
+              </div>
 
-                {/* Icon */}
-                <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${plan.gradient} flex items-center justify-center mb-6`}>
-                  <Icon className="w-8 h-8 text-white" strokeWidth={2.5} />
-                </div>
-
-                {/* Plan Name */}
-                <h3 className={`text-2xl font-extrabold mb-2 ${plan.popular ? 'text-white' : 'text-[#111827]'}`}>
-                  {plan.name}
-                </h3>
-                <p className={`text-sm mb-6 ${plan.popular ? 'text-gray-300' : 'text-gray-500'}`}>
-                  {plan.description}
-                </p>
-
-                {/* Price */}
-                <div className="mb-8">
-                  <div className="flex items-baseline gap-2">
-                    <span className={`text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-[#111827]'}`}>
-                      {plan.price}
-                    </span>
-                  </div>
-                  <p className={`text-sm mt-1 ${plan.popular ? 'text-gray-300' : 'text-gray-500'}`}>
-                    {plan.period}
-                  </p>
-                </div>
-
-                {/* Features */}
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <div className={`w-5 h-5 rounded-full bg-linear-to-br ${plan.gradient} flex items-center justify-center shrink-0 mt-0.5`}>
-                        <Check className="w-3 h-3 text-white" strokeWidth={3} />
-                      </div>
-                      <span className={`text-sm ${plan.popular ? 'text-gray-200' : 'text-gray-600'}`}>
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA Button */}
+              {/* Call to Action Button */}
+              <div className="mt-8 pt-6 border-t border-slate-800">
                 <button
-                  className={`w-full py-4 rounded-full font-bold transition-all duration-300 ${
-                    plan.popular
-                      ? 'bg-linear-to-r from-[#4ADE80] to-[#10B981] text-[#111827] hover:shadow-lg hover:shadow-[#4ADE80]/50'
-                      : 'bg-linear-to-r from-gray-100 to-gray-200 text-[#111827] hover:from-[#4ADE80] hover:to-[#10B981]'
-                  }`}
+                  onClick={() => (window.location.href = "/book-pickup")}
+                  className="w-full py-3 px-4 bg-slate-800 hover:bg-green-600 text-slate-200 hover:text-white rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  Start Now
+                  Sell {category.title.split(" ")[0]}
                 </button>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-gray-600 mb-4">
-            Need a custom solution? We're here to help.
+        {/* Bulk Order Notice */}
+        <div className="mt-12 text-center bg-slate-900/50 border border-slate-800 rounded-xl p-6 max-w-2xl mx-auto">
+          <p className="text-slate-300">
+            <span className="text-green-500 font-bold">
+              Have Bulk Quantity?
+            </span>{" "}
+            (More than 100kg)
+            <br />
+            <span className="text-sm text-slate-400">
+              Call us directly for a custom quote and special pickup
+              arrangement.
+            </span>
           </p>
-          <button className="px-8 py-3 border-2 border-[#4ADE80] text-[#111827] font-bold rounded-full hover:bg-[#4ADE80] hover:shadow-lg transition-all duration-300">
-            Contact Sales
-          </button>
+          <a
+            href="tel:+919876543210"
+            className="inline-block mt-3 text-white font-bold hover:underline"
+          >
+            📞 +91 98765 43210
+          </a>
         </div>
       </div>
     </section>
