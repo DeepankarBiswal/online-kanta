@@ -90,8 +90,8 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-4">Get in Touch</h4>
             <ul className="space-y-3 text-gray-400">
-              <li>support@scrapflow.com</li>
-              <li>+91 1800-SCRAP-NOW</li>
+              <li>support@online-kanta.com</li>
+              <li>+91 1800-KANTA-NOW</li>
               <li>Mon - Sat: 8 AM - 8 PM</li>
             </ul>
           </div>
@@ -100,7 +100,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm">
-            © 2024 ScrapFlow. All rights reserved.
+            © 2024 OnlineKanta. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-400">
             <a href="#" className="hover:text-[#4ADE80] transition-colors">
