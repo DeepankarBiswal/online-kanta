@@ -11,8 +11,9 @@ import BookPickupPage from "./pages/BookPickupPage";
 import PickupSuccessPage from "./pages/PickupSuccessPage";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
-
-
+import CustomerLoginPage from "./pages/CustomerLoginPage";
+import CustomerSignup from "./pages/CustomerSignup";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function Home() {
   return (
@@ -35,10 +36,27 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/book-pickup" element={<BookPickupPage />} />
-      <Route path="/pickup-success" element={<PickupSuccessPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+      <Route path="/customer/login" element={<CustomerLoginPage />} />
+      <Route path="/customer/signup" element={<CustomerSignup />} />
+      <Route
+        path="/book-pickup"
+        element={
+          <ProtectedRoute>
+            <BookPickupPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pickup-success"
+        element={
+          <ProtectedRoute>
+            <PickupSuccessPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

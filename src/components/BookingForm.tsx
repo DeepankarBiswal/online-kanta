@@ -1,26 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import { Calendar, Clock, MapPin, Phone, User, FileText, Newspaper, Zap, Package, Droplet, Wrench, CheckCircle2 } from 'lucide-react';
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Phone,
+  User,
+  FileText,
+  Newspaper,
+  Zap,
+  Package,
+  Droplet,
+  Wrench,
+  CheckCircle2,
+  Mail,
+  ArrowLeft,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/online-kanta-logo.png";
-
+import { useAuth } from "../hooks/useAuth";
 
 const scrapTypes = [
-  { value: 'paper', label: 'Paper & Cardboard', icon: Newspaper },
-  { value: 'plastic', label: 'Plastic', icon: Droplet },
-  { value: 'metal', label: 'Metal', icon: Wrench },
-  { value: 'electronics', label: 'Electronics', icon: Zap },
-  { value: 'mixed', label: 'Mixed Scrap', icon: Package },
+  { value: "paper", label: "Paper & Cardboard", icon: Newspaper },
+  { value: "plastic", label: "Plastic", icon: Droplet },
+  { value: "metal", label: "Metal", icon: Wrench },
+  { value: "electronics", label: "Electronics", icon: Zap },
+  { value: "mixed", label: "Mixed Scrap", icon: Package },
 ];
 
 const timeSlots = [
-  '9:00 AM - 11:00 AM',
-  '11:00 AM - 1:00 PM',
-  '1:00 PM - 3:00 PM',
-  '3:00 PM - 5:00 PM',
-  '5:00 PM - 7:00 PM',
+  "9:00 AM - 11:00 AM",
+  "11:00 AM - 1:00 PM",
+  "1:00 PM - 3:00 PM",
+  "3:00 PM - 5:00 PM",
+  "5:00 PM - 7:00 PM",
 ];
 
 interface FormData {
+  email: string;
   fullName: string;
   phone: string;
   area: string;
@@ -32,6 +49,7 @@ interface FormData {
 }
 
 interface FormErrors {
+  email?: string;
   fullName?: string;
   phone?: string;
   area?: string;
@@ -42,16 +60,26 @@ interface FormErrors {
 }
 
 export function BookingForm() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    phone: '',
-    area: '',
-    address: '',
-    date: '',
-    timeSlot: '',
-    scrapType: '',
-    notes: '',
+    email: "",
+    fullName: "",
+    phone: "",
+    area: "",
+    address: "",
+    date: "",
+    timeSlot: "",
+    scrapType: "",
+    notes: "",
   });
+
+  // Pre-fill email from authenticated user
+  useEffect(() => {
+    if (user?.email) {
+      setFormData((prev) => ({ ...prev, email: user.email || "" }));
+    }
+  }, [user]);
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -59,113 +87,151 @@ export function BookingForm() {
 
   const validateField = (name: string, value: string): string | undefined => {
     switch (name) {
-      case 'fullName':
-        if (!value.trim()) return 'Full name is required';
-        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+      case "email": {
+        if (!value.includes("@")) return "Please enter a valid email";
         break;
-      case 'phone':
-        if (!value.trim()) return 'Phone number is required';
-        if (!/^\+?[\d\s-]{10,}$/.test(value)) return 'Enter a valid phone number';
+      }
+      case "fullName": {
+        if (!value.trim()) return "Full name is required";
+        if (value.trim().length < 2)
+          return "Name must be at least 2 characters";
         break;
-      case 'area':
-        if (!value.trim()) return 'Area/locality is required';
+      }
+      case "phone": {
+        if (!value.trim()) return "Phone number is required";
+        if (!/^\+?[\d\s-]{10,}$/.test(value))
+          return "Enter a valid phone number";
         break;
-      case 'address':
-        if (!value.trim()) return 'Full address is required';
-        if (value.trim().length < 10) return 'Please enter a complete address';
+      }
+      case "area": {
+        if (!value.trim()) return "Area/locality is required";
         break;
-      case 'date':
-        if (!value) return 'Pickup date is required';
+      }
+      case "address": {
+        if (!value.trim()) return "Full address is required";
+        if (value.trim().length < 10) return "Please enter a complete address";
+        break;
+      }
+      case "date": {
+        if (!value) return "Pickup date is required";
         const selectedDate = new Date(value);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        if (selectedDate < today) return 'Date cannot be in the past';
+        if (selectedDate < today) return "Date cannot be in the past";
         break;
-      case 'timeSlot':
-        if (!value) return 'Please select a time slot';
+      }
+      case "timeSlot": {
+        if (!value) return "Please select a time slot";
         break;
-      case 'scrapType':
-        if (!value) return 'Please select scrap type';
+      }
+      case "scrapType": {
+        if (!value) return "Please select scrap type";
         break;
+      }
     }
     return undefined;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (touched[name]) {
       const error = validateField(name, value);
-      setErrors(prev => ({ ...prev, [name]: error }));
+      setErrors((prev) => ({ ...prev, [name]: error }));
     }
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleBlur = (
+    e: React.FocusEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setTouched(prev => ({ ...prev, [name]: true }));
+    setTouched((prev) => ({ ...prev, [name]: true }));
     const error = validateField(name, value);
-    setErrors(prev => ({ ...prev, [name]: error }));
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-   const handleSubmit = async (e: React.FormEvent) => {
-     e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-     // Validate all fields (KEEPING your validation logic)
-     const newErrors: FormErrors = {};
-     const requiredFields = [
-       "fullName",
-       "phone",
-       "area",
-       "address",
-       "date",
-       "timeSlot",
-       "scrapType",
-     ];
+    // Validate all fields (KEEPING your validation logic)
+    const newErrors: FormErrors = {};
+    const requiredFields = [
+      "email",
+      "fullName",
+      "phone",
+      "area",
+      "address",
+      "date",
+      "timeSlot",
+      "scrapType",
+    ];
 
-     requiredFields.forEach((field) => {
-       const error = validateField(field, formData[field as keyof FormData]);
-       if (error) newErrors[field as keyof FormErrors] = error;
-     });
+    requiredFields.forEach((field) => {
+      const error = validateField(field, formData[field as keyof FormData]);
+      if (error) newErrors[field as keyof FormErrors] = error;
+    });
 
-     setErrors(newErrors);
-     setTouched(
-       requiredFields.reduce((acc, field) => ({ ...acc, [field]: true }), {})
-     );
+    setErrors(newErrors);
+    setTouched(
+      requiredFields.reduce((acc, field) => ({ ...acc, [field]: true }), {}),
+    );
 
-     // If NO errors, send to Supabase
-     if (Object.keys(newErrors).length === 0) {
-       try {
-         const { error } = await supabase.from("bookings_v2").insert([
-           {
-             customer_name: formData.fullName,
-             phone_number: formData.phone,
-             area: formData.area,
-             address: formData.address,
-             pickup_date: formData.date,
-             time_slot: formData.timeSlot,
-             scrap_type: formData.scrapType,
-             notes: formData.notes,
-             status: "pending",
-           },
-         ]);
+    // If NO errors, send to Supabase
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const bookingData = {
+          customer_name: formData.fullName,
+          phone_number: formData.phone,
+          area: formData.area,
+          address: formData.address,
+          pickup_date: formData.date,
+          time_slot: formData.timeSlot,
+          scrap_type: formData.scrapType,
+          notes: formData.notes,
+          status: "pending",
+        };
 
-         if (error) throw error;
+        console.log("Attempting to insert booking data:", bookingData);
 
-         // Success!
-         console.log("Form submitted to Supabase:", formData);
-         setIsSubmitted(true);
-       } catch (error: any) {
-         console.error("Error submitting form:", error);
-         alert("Error booking pickup: " + error.message);
-       }
-     }
-   };
+        const { error } = await supabase
+          .from("bookings_v2")
+          .insert([bookingData]);
 
+        if (error) throw error;
+
+        // Success!
+        console.log("Form submitted to Supabase:", formData);
+        setIsSubmitted(true);
+      } catch (error: unknown) {
+        console.error("Error submitting form - Full error:", error);
+        let errorMessage = "Unknown error";
+
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        } else if (
+          typeof error === "object" &&
+          error !== null &&
+          "message" in error
+        ) {
+          errorMessage = (error as { message: string }).message;
+        }
+
+        console.error("Final error message:", errorMessage);
+        alert("Error booking pickup: " + errorMessage);
+      }
+    }
+  };
 
   const getTodayDate = () => {
     const today = new Date();
-    return today.toISOString().split('T')[0];
+    return today.toISOString().split("T")[0];
   };
 
   if (isSubmitted) {
@@ -178,28 +244,32 @@ export function BookingForm() {
             </div>
             <h2 className="text-white mb-3">Pickup Request Confirmed!</h2>
             <p className="text-white/80 mb-6">
-              We've received your scrap pickup request for {formData.date} during {formData.timeSlot}.
+              We've received your scrap pickup request for {formData.date}{" "}
+              during {formData.timeSlot}.
             </p>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
               <p className="text-white/90 mb-2">
                 <strong>Confirmation Details:</strong>
               </p>
               <p className="text-white/70 text-sm">
-                A confirmation message will be sent to your WhatsApp number ({formData.phone}) within 10 minutes.
+                A confirmation message will be sent to your WhatsApp number (
+                {formData.phone}) and email ({formData.email}) within 10
+                minutes.
               </p>
             </div>
             <button
               onClick={() => {
                 setIsSubmitted(false);
                 setFormData({
-                  fullName: '',
-                  phone: '',
-                  area: '',
-                  address: '',
-                  date: '',
-                  timeSlot: '',
-                  scrapType: '',
-                  notes: '',
+                  email: user?.email || "",
+                  fullName: "",
+                  phone: "",
+                  area: "",
+                  address: "",
+                  date: "",
+                  timeSlot: "",
+                  scrapType: "",
+                  notes: "",
                 });
                 setTouched({});
               }}
@@ -215,6 +285,17 @@ export function BookingForm() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Back Button */}
+      <div className="mb-6 px-4">
+        <button
+          onClick={() => navigate("/")}
+          className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors duration-200 hover:bg-white/5 px-3 py-2 rounded-lg"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm">Back to Home</span>
+        </button>
+      </div>
+
       {/* Header */}
       <div className="text-center mb-8 px-4">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl mb-4">
@@ -234,6 +315,36 @@ export function BookingForm() {
       {/* Form Card */}
       <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-6 md:p-10">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-white/90 mb-2">
+              Email Address <span className="text-red-400">*</span>
+            </label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+                <Mail className="w-5 h-5" />
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={!!user}
+                className={`w-full bg-white/5 border ${
+                  touched.email && errors.email
+                    ? "border-red-400/50 focus:border-red-400"
+                    : "border-white/10 focus:border-white/30"
+                } rounded-2xl px-12 py-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
+                placeholder="your@email.com"
+              />
+            </div>
+            {touched.email && errors.email && (
+              <p className="mt-2 text-sm text-red-300">{errors.email}</p>
+            )}
+          </div>
+
           {/* Full Name */}
           <div>
             <label htmlFor="fullName" className="block text-white/90 mb-2">
